@@ -1,0 +1,90 @@
+<html>
+<head>
+<style>
+#sample4 {border: medium solid red;
+          border-style:  inline;
+          border-width: 1px;
+}
+</style>
+<script type="text/javascript">
+var i=0,j=0;
+var x=0,y=0;// varible which controls coordinates along x and y axis
+t=0;//t-time
+g=0;//which controls speed of div
+var ctx,canvas;
+function a()
+{
+clearTimeout(id);
+g=g+10;
+t=g;
+drawShape();
+}
+
+function b()
+{
+clearTimeout(id);
+g=g-10;
+t=g;
+drawShape();
+}
+function drawShape(){
+  // get the canvas element using the DOM
+   canvas = document.getElementById('mycanvas');
+  if (canvas.getContext){
+ 
+    // use getContext to use the canvas for drawing
+    ctx = canvas.getContext('2d');
+	c=canvas.getContext("2d");	  
+	  
+   id=setInterval(function(){
+	  ctx.fillStyle="yellow";
+	  
+	  ctx.fillRect(0,0,200,100);
+	  
+	  ctx.fillStyle = '#404040 ';
+	   
+      ctx.fillRect(x,y,10,10);
+	  
+	  if(y<90 && x==0)//top to bottom
+	  {
+	  
+	  ctx.fillRect(x,y++,10,10);
+	  
+	  } 
+	  else if(x<190 && y==90)
+	  {
+	  ctx.fillRect(x++,y,10,10);//horizontal
+	
+	  }
+	  else if(y>0 && x==190) 
+	  {
+	  y--;
+	  ctx.fillRect(x,y,10,10);
+	  }
+	  else if(x>0 && y==0)
+	  {
+	  x--;
+	  ctx.fillRect(x,y,10,10);
+	  }
+	  ctx.fill();
+	  
+	  },t);
+	  
+	  
+	  }
+	   
+	  }
+	 
+	  </script>
+<body onload="drawShape();">
+  <div id="sample4"> <canvas id="mycanvas" width="400" height="300" > </canvas>
+  <input type="button" value="SPEEDDOWN" id="speed"  onclick=a()>
+  <input type="button" value="SPEEDUP" id="speed1"  onclick=b()>
+  
+</div>
+
+
+ 
+ 
+</body>
+</html>
