@@ -1,0 +1,182 @@
+<html>
+<style>
+.intLink { cursor: pointer; }
+img.intLink { border: 0; }
+#textBox{
+width: 540px;
+  height: 200px;
+  border: 1px #000000 solid;
+  padding: 12px;
+  overflow: scroll;
+  }
+  </style>
+ 
+<script>
+var oDoc, sDefTxt,Doc,DefTxt;
+
+function initDoc() {
+  oDoc = document.getElementById("textBox");
+  sDefTxt = oDoc.innerHTML;
+  if (document.compForm) { setDocMode(true); }
+}
+
+function formatDoc(sCmd, sValue) {
+  if (validateMode()) { document.execCommand(sCmd, false, sValue); oDoc.focus(); }
+}
+
+function validateMode() {
+
+  oDoc.focus();
+  return true;
+}
+
+function setDocMode(bToSource) {
+  var oContent;
+  if (bToSource) {
+    oContent = document.createTextNode(oDoc.innerHTML);
+    oDoc.innerHTML = "";
+    var oPre = document.createElement("pre");
+    oDoc.contentEditable = false;
+    oPre.id = "sourceText";
+    oPre.contentEditable = true;  // setting contentEditable to "true" allows you to make individual elements of a document editable.
+    oPre.appendChild(oContent);//it appends a node as the last child of node 
+    oDoc.appendChild(oPre);
+  } else {
+    if (document.all) {
+      oDoc.innerHTML = oDoc.innerText;
+    } else {
+      oContent = document.createRange(); 
+      oContent.selectNodeContents(oDoc.firstChild);
+      oDoc.innerHTML = oContent.toString();
+    }
+    oDoc.contentEditable = true;
+  }
+  oDoc.focus();// it triggers the focus event or focus on element by mouse click
+}
+function Style(choose)//function to print in dold nd ditalic
+	{ 
+	   if(document.getSelection()!='')
+	   {
+	   	switch(choose)
+		{
+			case 1://document.execCommand('bold');
+			var Txt=document.getSelection() ;
+			var str=Txt.toString();
+		
+			var s=pattern(str);
+			var j=document.execCommand('bold');
+			oContent = document.createTextNode(s);
+			//oDoc.innerHTML = "";
+			var oPre = document.createElement(j);
+			oDoc.contentEditable = false;
+			oPre.id = "sourceText";
+			oPre.contentEditable = true;  // setting contentEditable to "true" allows you to make individual elements of a document editable.
+			oPre.appendChild(oContent);//it appends a node as the last child of node 
+			oDoc.appendChild(oPre);
+	
+			       
+			        break;
+			case 2:
+			var Txt=document.getSelection() ; 
+			var str=Txt.toString();
+		
+			var s=pattern(str);
+			document.execCommand('italic');
+			
+	        oCon = document.createTextNode(s);
+			//oDoc.innerHTML = "";
+			
+			var oPr = document.createElement(s);
+			oDoc.contentEditable = false;
+			oPr.id = "Text";
+			oPr.contentEditable = true; 			// settin contentEditable to "true" allows you to make individual elements of a document editable.
+			oPr.appendChild(oCon);//it appends a node as the last child of node 
+			oDoc.appendChild(oPr);
+			oPr.contentEditable=false;
+			        break; 
+			default:alert("unknown error ");              
+		}
+	
+	    
+		//document.execCommand(s);
+		
+		alert(s); 
+		
+    }
+    
+    else {alert(" select  text ");}	
+	}
+	 
+	function pattern(str)// to change alternative letters to capital and small 
+	{
+		var i;
+	    var j=" ";
+		
+         for(i=0;i<(str.length);i++)
+		  {   
+		   
+		   
+			if((i%2)==0 && str[i]!='')
+			{ 
+			  j+=str[i].toUpperCase();
+			}	
+			else                                 
+			  j+=str[i].toLowerCase();
+		   	}  
+		  
+	    
+	       str=j;
+		   return str;
+
+	}  
+	 		 
+
+</script>
+ 
+
+<body onload="initDoc();">
+<form name="compForm" method="post" action="sample.php" onsubmit="if(validateMode()){this.myDoc.value=oDoc.innerHTML;return true;}return false;">
+<input type="hidden" name="myDoc">
+<div id="toolBar1">
+<select onchange="formatDoc('formatblock',this[this.selectedIndex].value);this.selectedIndex=0;">
+<option selected>- formatting -</option>
+<option value="p">Paragraph &lt;p&gt;</option>
+<option value="pre">Preformatted &lt;pre&gt;</option>
+</select>
+<select onchange="formatDoc('forecolor',this[this.selectedIndex].value);this.selectedIndex=0;">
+<option class="heading" selected>- color -</option>
+<option value="red">Red</option>
+<option value="blue">Blue</option>
+<option value="green">Green</option>
+<option value="black">Black</option>
+<option value="yellow">Yellow</option>
+</select>
+<select onchange="formatDoc('fontsize',this[this.selectedIndex].value);this.selectedIndex=0;">
+<option class="heading" selected>- size -</option>
+<option value="1">Very small</option>
+<option value="2">A bit small</option>
+<option value="3">Normal</option>
+<option value="4">Medium-large</option>
+<option value="5">Big</option>
+<option value="6">Very big</option>
+<option value="7">Maximum</option>
+</select>
+<select onchange="formatDoc('fontname',this[this.selectedIndex].value);this.selectedIndex=0;">
+<option class="heading" selected>- font -</option>
+<option>Arial</option>
+<option>Arial Black</option>
+<option>Courier New</option>
+<option>Times New Roman</option>
+</select>
+</div>
+<p><img class="intLink" title="Bold" onclick="formatDoc('bold');" src="bold.png" />
+<img class="intLink" title="Italic" onclick="formatDoc('italic');" src="italic.png" />
+<img class="intLink" title="Underline" onclick="formatDoc('underline');" src="underline.png" />
+<p><input type="button" value="Dold" onclick="Style(1)" title="Dold" class ="intLink" /></p>
+	    <p><input type="button" value="Dtalic" onclick="Style(2)" title="Dtalic"/></p>
+<div id="textBox" contenteditable="true"><p>This is text editor</p></div>
+</form>
+<input type="button" value="Clear page" onclick="location.reload()"/>
+</body>
+
+</html>
