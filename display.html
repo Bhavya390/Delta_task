@@ -1,0 +1,27 @@
+<html>
+<body>
+<?php
+	include("mysqlconnect.php");
+	 $id=addslashes($_REQUEST['images_id']);
+	$select_query = "SELECT 'images_path' FROM  'images_tbl' WHERE 'images_id'='$id'";
+	$sql = mysqli_query($conn,$select_query) or die(mysql_error());   
+	while($row = mysql_fetch_array($sql,MYSQL_BOTH)){
+	 
+	?>
+	 
+	<table style="border-collapse: collapse; font: 12px Tahoma;" border="1" cellpadding="200" cellspacing="200">
+	<tbody><tr>
+	<td>
+	 
+	<img src="%3C?php%20echo%20$row[" images_path"];="" ?="">" alt="" />">
+	<!--<img src=$row["images_path"]; width="175" height="200" />-->
+	 
+	</td>
+	</tr>
+	</tbody></table>
+	 
+	<?php
+	}
+	?>
+</html>
+</body>
